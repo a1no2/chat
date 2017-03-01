@@ -9,7 +9,7 @@ io.sockets.on('connection', function (socket){
 	//イベント登録
 	//messageが飛んで来たら・・・
 	socket.on('message', function(data){
-		io.sockets.emit('from_server', {value: data.value});
+		io.sockets.emit('from_server', data);
 	});
 });
 

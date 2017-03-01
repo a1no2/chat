@@ -16,9 +16,10 @@
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
 		function send(){
-			var text = document.getElementById('addText');
+			var name = document.getElementById('name');
+			var text = document.getElementById('text');
 			if (text.value != "") {
-				socket.emit('message', {value: text.value});
+				socket.emit('message', {text: text.value, name: name.value});
 				text.value = "";
 			}
 		}
@@ -28,7 +29,7 @@
 <body>
 	<h1>チャットルーム</h1>
 	<div class="message">
-		<input type="text" id="addText"><input type="button" value="送信" onclick="send()">
+		<input type="text" id="text" placeholder="メッセージ" size="30"><input type="text" id="name" placeholder="名前" size="10"><input type="button" value="送信" onclick="send()">
 		<ul  id="chatList">
 		</ul>
 	</div>
@@ -36,12 +37,12 @@
 	<script>
 		var socket = io.connect();
 		//emitはサーバーに渡す
-		socket.emit('message', {value: 'めっせーじ！！'});
+		// socket.emit('message', {value: 'めっせーじ！！'});
 		//onで受け取る準備をする
 		socket.on('from_server', function(data){
-			console.log(data.value);
+			console.log(data.text);
 			var list = document.getElementById("chatList");
-			var str = document.createTextNode(data.value);
+			var str = document.createTextNode(data.name + ": " + data.text);
 			var ls = document.createElement("li");
 			ls.appendChild(str);
 			list.insertBefore(ls, list.firstChild);
