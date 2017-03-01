@@ -3,12 +3,34 @@
 <head>
 	<meta charset="utf-8">
 	<title>chat</title>
+	<style type="text/css">
+		ul {
+			padding-left: 0;
+		}
+		li {
+			list-style: none;
+			border-top: 1px solid #eee;
+			padding: 5px 0 5px 10px;
+		}
+	</style>
 	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		function send(){
+			var text = document.getElementById('addText');
+			if (text.value != "") {
+				socket.emit('message', {value: text.value});
+				text.value = "";
+			}
+		}
+
+	</script>
 </head>
 <body>
 	<h1>チャットルーム</h1>
 	<div class="message">
-		<p>メッセージが追加していく予定</p>
+		<input type="text" id="addText"><input type="button" value="送信" onclick="send()">
+		<ul  id="chatList">
+		</ul>
 	</div>
 	<!-- <script src='"chat.js"'></script> -->
 	<script>
@@ -18,6 +40,11 @@
 		//onで受け取る準備をする
 		socket.on('from_server', function(data){
 			console.log(data.value);
+			var list = document.getElementById("chatList");
+			var str = document.createTextNode(data.value);
+			var ls = document.createElement("li");
+			ls.appendChild(str);
+			list.insertBefore(ls, list.firstChild);
 		});
 	</script>
 </body>
