@@ -1,11 +1,24 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-	<meta charset=utf-8>
+	<meta charset="utf-8">
 	<title>chat</title>
+	<script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-
-
+	<h1>チャットルーム</h1>
+	<div class="message">
+		<p>メッセージが追加していく予定</p>
+	</div>
+	<!-- <script src='"chat.js"'></script> -->
+	<script>
+		var socket = io.connect();
+		//emitはサーバーに渡す
+		socket.emit('message', {value: 'めっせーじ！！'});
+		//onで受け取る準備をする
+		socket.on('from_server', function(data){
+			console.log(data.value);
+		});
+	</script>
 </body>
 </html>
